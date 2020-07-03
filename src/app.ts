@@ -80,13 +80,25 @@ class ProjectInput {
     const enteredDescription = this.descriptionInputElement.value
     const enteredPeople = this.peopleInputElement.value
     
+    const titleValidation: Validatable = {
+      value: enteredTitle,
+      required: true
+    }
+    const descriptionValidation: Validatable = {
+      value: enteredDescription,
+      required: true,
+      minlength: 5
+    }
+    const peopleValidation: Validatable = {
+      value: +enteredPeople,
+      required: true,
+      min: 1,
+      max: 5 
+    }
     if(
-      validate({value: enteredTitle, required: true, minlength:5}) &&
-      validate({value: enteredDescription, required: true, minlength:5}) &&
-      validate({value: enteredPeople, required: true, minlength:5}) 
-      // enteredTitle.trim().length === 0 ||
-      // enteredDescription.trim().length === 0 ||
-      // enteredPeople.trim().length === 0 
+      validate(titleValidation) &&
+      validate(descriptionValidation) &&
+      validate(peopleValidation)
     ){
       alert("Invalid input. Please fill all the form.")
       return;
