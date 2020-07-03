@@ -1,3 +1,34 @@
+//validation
+interface Validatable {
+  value: string | number;
+  required?: boolean;
+  minlength?: number;
+  maxlength?: number;
+  min?: number;
+  max?: number;
+}
+
+function validate(validatableInput: Validatable){
+  let isValid = true;
+  if (validatableInput.required){
+    isValid = isValid && validatableInput.value.toString().trim().length !== 0
+  }
+  if (validatableInput.minlength != null && typeof validatableInput.value === "string"){
+    isValid = isValid && validatableInput.value.length > validatableInput.minlength;
+  }
+  if (validatableInput.maxlength != null && typeof validatableInput.value === "string"){
+    isValid = isValid && validatableInput.value.length > validatableInput.maxlength;
+  }
+  if (validatableInput.min != null && typeof validatableInput.value === "number"){
+    isValid = isValid && validatableInput.value > validatableInput.min;
+  }
+  if (validatableInput.max != null && typeof validatableInput.value === "number"){
+    isValid = isValid && validatableInput.value > validatableInput.max;
+  }
+  return isValid;
+}
+
+//autobind funcion
 function autobind(
   target: any,
   methodName: string,
@@ -50,9 +81,12 @@ class ProjectInput {
     const enteredPeople = this.peopleInputElement.value
     
     if(
-      enteredTitle.trim().length === 0 ||
-      enteredDescription.trim().length === 0 ||
-      enteredPeople.trim().length === 0 
+      validate({value: enteredTitle, required: true, minlength:5}) &&
+      validate({value: enteredDescription, required: true, minlength:5}) &&
+      validate({value: enteredPeople, required: true, minlength:5}) 
+      // enteredTitle.trim().length === 0 ||
+      // enteredDescription.trim().length === 0 ||
+      // enteredPeople.trim().length === 0 
     ){
       alert("Invalid input. Please fill all the form.")
       return;
