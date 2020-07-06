@@ -1,3 +1,17 @@
+//Project state management
+
+class projectState {
+  private projects: any[] = [];
+  addProjects(title: string, description: string, numOfPeople: number){
+    const newProject = {
+      id: Math.random().toString(),
+      title: title,
+      description: description,
+      people: numOfPeople
+    };
+    this.projects.push(newProject)
+  }
+}
 //validation
 interface Validatable {
   value: string | number;
@@ -141,7 +155,7 @@ class ProjectInput {
     const userInput = this.gatherUserInput();
     if (Array.isArray(userInput)){
       const [title, description, people] = userInput;
-      console.log(title, description, people)
+      projectState.addProject(title, description, people)
       this.clearInput();
     }
   }
